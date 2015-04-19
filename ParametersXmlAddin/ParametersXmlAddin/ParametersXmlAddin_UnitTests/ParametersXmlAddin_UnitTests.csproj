@@ -63,7 +63,7 @@
     <!---->
     <Compile Include="MenuItemTests\MenuItemCallback.cs" />
     <Compile Include="MenuItemTests\UIShellServiceMock.cs" />
-    <Compile Include="XmlHelper.cs" />
+    <Compile Include="XmlAssert.cs" />
     <Compile Include="XmlTest.cs" />
     <!---->
     <!---->

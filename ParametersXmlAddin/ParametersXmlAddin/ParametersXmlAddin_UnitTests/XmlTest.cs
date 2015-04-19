@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
 
 namespace ParametersXmlAddin_UnitTests
 {
@@ -71,7 +72,9 @@ namespace ParametersXmlAddin_UnitTests
             BlackMarble.ParametersXmlAddin.XmlGenerator.GenerateParametersXmlFile(sourceFile, actualFile);
 
             // Assert
-            Assert.IsTrue(XmlHelper.FilesAreEquivalent(requiredFile, actualFile));
+            XmlAssert.AreEqual(
+                new StreamReader(requiredFile, System.Text.Encoding.UTF8).ReadToEnd(),
+                new StreamReader(actualFile, System.Text.Encoding.UTF8).ReadToEnd());
         }
 
     }
