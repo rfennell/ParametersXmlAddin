@@ -58,17 +58,17 @@ namespace ParametersXmlAddin_UnitTests
         //
         #endregion
 
+     
         [TestMethod]
         public void Can_generate_parameters_file()
         {
             // Arrange 
             var sourceFile = @"testdata\web.config";
-            var transformFile = @"testdata\Transform.xslt";
             var requiredFile = @"testdata\parameters.xml";
             var actualFile = "results.xml";
 
             // act
-            BlackMarble.ParametersXmlAddin.XmlGenerator.GenerateParametersXmlFile(sourceFile, transformFile, actualFile);
+            BlackMarble.ParametersXmlAddin.XmlGenerator.GenerateParametersXmlFile(sourceFile, actualFile);
 
             // Assert
             Assert.IsTrue(XmlHelper.FilesAreEquivalent(requiredFile, actualFile));

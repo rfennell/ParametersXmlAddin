@@ -162,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Package.ico" />
+    <EmbeddedResource Include="Resources\ParametersTransform.xslt" />
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
