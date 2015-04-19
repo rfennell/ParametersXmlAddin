@@ -9,9 +9,9 @@ namespace ParametersXmlAddin_UnitTests
     /// Summary description for XmltTest
     /// </summary>
     [TestClass]
-    public class XmltTest
+    public class XmlTest
     {
-        public XmltTest()
+        public XmlTest()
         {
             //
             // TODO: Add constructor logic here
@@ -59,11 +59,20 @@ namespace ParametersXmlAddin_UnitTests
         #endregion
 
         [TestMethod]
-        public void TestMethod1()
+        public void Can_generate_parameters_file()
         {
-            //
-            // TODO: Add test logic here
-            //
+            // Arrange 
+            var sourceFile = @"testdata\web.config";
+            var transformFile = @"testdata\Transform.xslt";
+            var requiredFile = @"testdata\parameters.xml";
+            var actualFile = "results.xml";
+
+            // act
+            BlackMarble.ParametersXmlAddin.XmlGenerator.GenerateParametersXmlFile(sourceFile, transformFile, actualFile);
+
+            // Assert
+            Assert.IsTrue(XmlHelper.FilesAreEquivalent(requiredFile, actualFile));
         }
+
     }
 }

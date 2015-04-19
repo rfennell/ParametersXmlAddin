@@ -1,0 +1,11 @@
+﻿<parameters>
+  <parameter name="APPSETTING1" description="Description for APPSETTING1" defaultvalue="123" tags="">
+    <parameterentry kind="XmlFile" scope="\\web.config$" match="/configuration/appSettings/add[@key='APPSETTING1']/@value">
+    </parameterentry>
+  </parameter>
+  <parameter name="APPSETTING2" description="Description for APPSETTING2" defaultvalue="456" tags="">
+    <parameterentry kind="XmlFile" scope="\\web.config$" match="/configuration/appSettings/add[@key='APPSETTING2']/@value">
+    </parameterentry>
+  </parameter>
+
+</parameters>
