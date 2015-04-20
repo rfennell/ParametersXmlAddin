@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using EnvDTE;
+using System.IO;
 
 namespace BlackMarble.ParametersXmlAddin
 {
@@ -61,38 +62,167 @@ namespace BlackMarble.ParametersXmlAddin
         /// </summary>
         protected override void Initialize()
         {
-            Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
+            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if ( null != mcs )
+            if (null != mcs)
             {
                 // Create the command for the menu item.
                 var menuCommandID = new CommandID(GuidList.guidParametersXmlAddinCmdSet, (int)PkgCmdIDList.cmdidGenerateParametersXmlFile);
                 // Is an OleMenuCommand as opposed to MenuCommand to get assess to BeforeQueryStatus
-                var menuItem = new OleMenuCommand(MenuItemCallback, menuCommandID );
+                var menuItem = new OleMenuCommand(MenuItemCallback, menuCommandID);
                 menuItem.BeforeQueryStatus += menuItem_BeforeQueryStatus;
-                mcs.AddCommand( menuItem );
+                mcs.AddCommand(menuItem);
             }
         }
 
-        void menuItem_BeforeQueryStatus(object sender, EventArgs e)
-        {
-            var myCommand = sender as OleMenuCommand;
-            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering BeforeQueryStatus() of: {0}", myCommand.Text));
-            myCommand.Visible = CurrentSelectionHasName("web.config");
-        }
         #endregion
 
+        /// <summary>
+        /// Called when the right click occures
+        /// Used to set if the menu is seen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void menuItem_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering BeforeQueryStatus()"));
 
-     
+            var myCommand = sender as OleMenuCommand;
+            myCommand.Visible = CurrentSelectionHasName("web.config");
+        }
+        
+
         /// <summary>
         /// This function is the callback used to execute a command when the a menu item is clicked.
         /// See the Initialize method to see how the menu item is associated to this function using
         /// the OleMenuCommandService service and the MenuCommand class.
         /// </summary>
         private void MenuItemCallback(object sender, EventArgs e)
+        {
+            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering MenuItemCallback()"));
+    
+            // gets access to the item in the IDE, but no access 
+            // to underling files 
+            /*
+            DTE dte = (DTE)GetService(typeof(SDTE));
+            SelectedItems selectedItems = dte.SelectedItems;
+            */
+            
+            IVsHierarchy hierarchy = null;
+            uint itemid = VSConstants.VSITEMID_NIL;
+
+            if (!IsSingleProjectItemSelection(out hierarchy, out itemid)) return;
+
+            var vsProject = (IVsProject)hierarchy;
+         
+            string projectFullPath = null;
+            if (ErrorHandler.Failed(vsProject.GetMkDocument(VSConstants.VSITEMID_ROOT, out projectFullPath))) return;
+
+            // get the name of the item
+            string itemFullPath = null;
+            if (ErrorHandler.Failed(vsProject.GetMkDocument(itemid, out itemFullPath))) return;
+
+            var newFile = Path.Combine(Path.GetDirectoryName(itemFullPath), "parameters.xml");
+            XmlGenerator.GenerateParametersXmlFile(
+                itemFullPath, 
+                newFile);
+
+            var selectedProjectItem = GetProjectItemFromHierarchy(hierarchy, itemid);
+            ((ProjectItem)selectedProjectItem.ProjectItems.Parent).ProjectItems.AddFromFile(newFile);
+
+            ShowMessageBox(
+                "ParametersXmlAddin", 
+                string.Format("Added {0} to project", newFile));
+        }
+
+        private ProjectItem GetProjectItemFromHierarchy(IVsHierarchy pHierarchy, uint itemID)
+        {
+            object propertyValue;
+            ErrorHandler.ThrowOnFailure(pHierarchy.GetProperty(itemID, (int)__VSHPROPID.VSHPROPID_ExtObject, out propertyValue));
+
+            var projectItem = propertyValue as ProjectItem;
+            if (projectItem == null) return null;
+
+            return projectItem;
+        }
+
+        /// <summary>
+        /// Gets the current items
+        /// Taken from https://github.com/oncheckin/oncheckin-transformer/blob/master/OnCheckinTransformer.VisualStudio/OnCheckinTransforms.VisualStudioPackage.cs
+        /// </summary>
+        /// <param name="hierarchy"></param>
+        /// <param name="itemid"></param>
+        /// <returns></returns>
+        private static bool IsSingleProjectItemSelection(out IVsHierarchy hierarchy, out uint itemid)
+        {
+            hierarchy = null;
+            itemid = VSConstants.VSITEMID_NIL;
+            int hr = VSConstants.S_OK;
+
+            var monitorSelection = Package.GetGlobalService(typeof(SVsShellMonitorSelection)) as IVsMonitorSelection;
+            var solution = Package.GetGlobalService(typeof(SVsSolution)) as IVsSolution;
+            if (monitorSelection == null || solution == null)
+            {
+                return false;
+            }
+
+            IVsMultiItemSelect multiItemSelect = null;
+            IntPtr hierarchyPtr = IntPtr.Zero;
+            IntPtr selectionContainerPtr = IntPtr.Zero;
+
+            try
+            {
+                hr = monitorSelection.GetCurrentSelection(out hierarchyPtr, out itemid, out multiItemSelect, out selectionContainerPtr);
+
+                if (ErrorHandler.Failed(hr) || hierarchyPtr == IntPtr.Zero || itemid == VSConstants.VSITEMID_NIL)
+                {
+                    // there is no selection
+                    return false;
+                }
+
+                // multiple items are selected
+                if (multiItemSelect != null) return false;
+
+                // there is a hierarchy root node selected, thus it is not a single item inside a project
+
+                if (itemid == VSConstants.VSITEMID_ROOT) return false;
+
+                hierarchy = Marshal.GetObjectForIUnknown(hierarchyPtr) as IVsHierarchy;
+                if (hierarchy == null) return false;
+
+                Guid guidProjectID = Guid.Empty;
+
+                if (ErrorHandler.Failed(solution.GetGuidOfProject(hierarchy, out guidProjectID)))
+                {
+                    return false; // hierarchy is not a project inside the Solution if it does not have a ProjectID Guid
+                }
+
+                // if we got this far then there is a single project item selected
+                return true;
+            }
+            finally
+            {
+                if (selectionContainerPtr != IntPtr.Zero)
+                {
+                    Marshal.Release(selectionContainerPtr);
+                }
+
+                if (hierarchyPtr != IntPtr.Zero)
+                {
+                    Marshal.Release(hierarchyPtr);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Shows a VS messagebox
+        /// </summary>
+        /// <param name="title">The title of the dialog</param>
+        /// <param name="message">The message from the dialog</param>
+        private void ShowMessageBox(string title, string message)
         {
             // Show a Message Box to prove we were here
             IVsUIShell uiShell = (IVsUIShell)GetService(typeof(SVsUIShell));
@@ -101,8 +231,8 @@ namespace BlackMarble.ParametersXmlAddin
             Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(uiShell.ShowMessageBox(
                        0,
                        ref clsid,
-                       "ParametersXmlAddin",
-                       string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.ToString()),
+                       title,
+                       message,
                        string.Empty,
                        0,
                        OLEMSGBUTTON.OLEMSGBUTTON_OK,
@@ -114,24 +244,6 @@ namespace BlackMarble.ParametersXmlAddin
 
 
         /// <summary>
-        /// Checks if the selected node has a given file extension
-        /// </summary>
-        /// <param name="extension">The extensions e.g. .cs</param>
-        /// <returns>true of it matches</returns>
-        private bool CurrentSelectionContainsItemOfType(string extension)
-        {
-            DTE dte = (DTE)GetService(typeof(SDTE));
-            SelectedItems selectedItems = dte.SelectedItems;
-            foreach (SelectedItem item in selectedItems)
-            {
-                if (item.Name.EndsWith(extension))
-                    return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Checks if the selected node has a given file name
         /// </summary>
         /// <param name="extension">The extensions e.g. myfile.cs</param>
@@ -140,10 +252,13 @@ namespace BlackMarble.ParametersXmlAddin
         {
             DTE dte = (DTE)GetService(typeof(SDTE));
             SelectedItems selectedItems = dte.SelectedItems;
-            foreach (SelectedItem item in selectedItems)
+            if (selectedItems.Count==1)
             {
-                if (item.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
+                // note we index from 1 not zero
+                if (selectedItems.Item(1).Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
+                {
                     return true;
+                }
             }
 
             return false;
