@@ -60,13 +60,15 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-
+        
       <Button guid="guidParametersXmlAddinCmdSet" id="cmdidGenerateParametersXmlFile" priority="0x0100" type="Button">
         <Parent guid="guidParametersXmlAddinCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Generate Parameters Xml file</ButtonText>
+          <ButtonText>Generate Parameters.xml file</ButtonText>
         </Strings>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>TextChanges</CommandFlag>
       </Button>
 
 

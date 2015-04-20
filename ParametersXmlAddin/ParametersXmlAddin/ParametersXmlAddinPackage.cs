@@ -8,6 +8,7 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
+using EnvDTE;
 
 namespace BlackMarble.ParametersXmlAddin
 {
@@ -30,6 +31,10 @@ namespace BlackMarble.ParametersXmlAddin
     // This attribute is needed to let the shell know that this package exposes some menus.
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(GuidList.guidParametersXmlAddinPkgString)]
+    // You may wonder what that GUID value is, well in this case it represents the 
+    // UICONTEXT_SolutionExists constant, which means the the package will auto-load when a solution exists 
+    // (so when we create a new one or load one). 
+    [ProvideAutoLoad("{f1536ef8-92ec-443c-9ed7-fdadf150da82}")]
     public sealed class ParametersXmlAddinPackage : Package
     {
         /// <summary>
@@ -64,13 +69,24 @@ namespace BlackMarble.ParametersXmlAddin
             if ( null != mcs )
             {
                 // Create the command for the menu item.
-                CommandID menuCommandID = new CommandID(GuidList.guidParametersXmlAddinCmdSet, (int)PkgCmdIDList.cmdidGenerateParametersXmlFile);
-                MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID );
+                var menuCommandID = new CommandID(GuidList.guidParametersXmlAddinCmdSet, (int)PkgCmdIDList.cmdidGenerateParametersXmlFile);
+                // Is an OleMenuCommand as opposed to MenuCommand to get assess to BeforeQueryStatus
+                var menuItem = new OleMenuCommand(MenuItemCallback, menuCommandID );
+                menuItem.BeforeQueryStatus += menuItem_BeforeQueryStatus;
                 mcs.AddCommand( menuItem );
             }
         }
+
+        void menuItem_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            var myCommand = sender as OleMenuCommand;
+            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering BeforeQueryStatus() of: {0}", myCommand.Text));
+            myCommand.Visible = CurrentSelectionHasName("web.config");
+        }
         #endregion
 
+
+     
         /// <summary>
         /// This function is the callback used to execute a command when the a menu item is clicked.
         /// See the Initialize method to see how the menu item is associated to this function using
@@ -94,6 +110,43 @@ namespace BlackMarble.ParametersXmlAddin
                        OLEMSGICON.OLEMSGICON_INFO,
                        0,        // false
                        out result));
+        }
+
+
+        /// <summary>
+        /// Checks if the selected node has a given file extension
+        /// </summary>
+        /// <param name="extension">The extensions e.g. .cs</param>
+        /// <returns>true of it matches</returns>
+        private bool CurrentSelectionContainsItemOfType(string extension)
+        {
+            DTE dte = (DTE)GetService(typeof(SDTE));
+            SelectedItems selectedItems = dte.SelectedItems;
+            foreach (SelectedItem item in selectedItems)
+            {
+                if (item.Name.EndsWith(extension))
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if the selected node has a given file name
+        /// </summary>
+        /// <param name="extension">The extensions e.g. myfile.cs</param>
+        /// <returns>true of it matches</returns>
+        private bool CurrentSelectionHasName(string name)
+        {
+            DTE dte = (DTE)GetService(typeof(SDTE));
+            SelectedItems selectedItems = dte.SelectedItems;
+            foreach (SelectedItem item in selectedItems)
+            {
+                if (item.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
+                    return true;
+            }
+
+            return false;
         }
 
     }
