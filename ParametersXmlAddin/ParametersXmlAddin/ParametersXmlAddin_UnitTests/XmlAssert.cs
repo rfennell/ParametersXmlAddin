@@ -37,7 +37,8 @@ namespace ParametersXmlAddin_UnitTests
             var a = Normalize(actual).ToString();
             for (int i = 0; i < e.Length; i++)
             {
-                Assert.AreEqual(e[i], a[i], "Mismatch at Index {0}", i);
+                Console.Write(e[i]);
+                Assert.AreEqual(e[i], a[i], "Mismatch at Index {0} of {1} characters");
             }
 
         }
