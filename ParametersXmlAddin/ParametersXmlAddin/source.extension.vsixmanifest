@@ -3,10 +3,11 @@
   <Metadata>
     <Identity Id="633e9230-4287-47ed-8a7a-bbbdc80569f4" Version="1.0" Language="en-US" Publisher="Black Marble" />
     <DisplayName>ParametersXmlAddin</DisplayName>
-    <Description>A tools to generate parameters.xml files for MSdeploy from existing web.config files</Description>
+    <Description xml:space="preserve">A tool to generate parameters.xml files for MSdeploy from existing web.config files</Description>
+    <Icon>Package.ico</Icon>
   </Metadata>
   <Installation InstalledByMsi="false">
-    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[12.0]" />
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[12.0, 14.0]" />
   </Installation>
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />

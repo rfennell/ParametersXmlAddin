@@ -121,6 +121,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageBoxReturnCode.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -131,6 +132,7 @@
     <Compile Include="ParametersXmlAddinPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PkgCmdID.cs" />
+    <Compile Include="VSHelper.cs" />
     <Compile Include="XmlGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -161,7 +163,10 @@
     <None Include="Resources\Images.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Package.ico" />
+    <Content Include="Resources\Package.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <EmbeddedResource Include="Resources\ParametersTransform.xslt" />
   </ItemGroup>
   <PropertyGroup>
