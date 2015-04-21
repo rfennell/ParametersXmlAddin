@@ -3,6 +3,8 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace ParametersXmlAddin_UnitTests
 {
@@ -61,7 +63,7 @@ namespace ParametersXmlAddin_UnitTests
 
      
         [TestMethod]
-        public void Can_generate_parameters_file()
+        public void Can_generate_a_new_parameters_file()
         {
             // Arrange 
             var sourceFile = @"testdata\web.config";
@@ -75,6 +77,26 @@ namespace ParametersXmlAddin_UnitTests
             XmlAssert.AreEqual(
                 new StreamReader(requiredFile, System.Text.Encoding.UTF8).ReadToEnd(),
                 new StreamReader(actualFile, System.Text.Encoding.UTF8).ReadToEnd());
+        }
+
+
+        [TestMethod]
+        public void Can_update_and_existing_parameters_file()
+        {
+            // Arrange 
+            var sourceFile = @"testdata\web.config";
+            var requiredFile = @"testdata\parameters.xml";
+            var existingFile = @"testdata\ParametersMissingEntries.XML";
+            var actualFile = "results.xml";
+
+            // act
+            BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(sourceFile, existingFile, actualFile);
+
+            // assert
+            XmlAssert.AreEqual(
+                new StreamReader(requiredFile, System.Text.Encoding.UTF8).ReadToEnd(),
+                new StreamReader(actualFile, System.Text.Encoding.UTF8).ReadToEnd());
+              
         }
 
     }

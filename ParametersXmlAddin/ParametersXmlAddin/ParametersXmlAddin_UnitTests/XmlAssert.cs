@@ -33,8 +33,9 @@ namespace ParametersXmlAddin_UnitTests
 
             // This is char by char as it gives me an index where the failure is
             // if you just compare the whole string it takes forever to hunt down the issue
-            var e = Normalize(expected).ToString();
-            var a = Normalize(actual).ToString();
+            var e = BlackMarble.ParametersXmlAddin.XmlGenerator.Normalize(expected).ToString();
+            var a = BlackMarble.ParametersXmlAddin.XmlGenerator.Normalize(actual).ToString();
+            Console.WriteLine("\nXmlAssert.AreEqual: Characters compared, last character is the one with a mismatch");
             for (int i = 0; i < e.Length; i++)
             {
                 Console.Write(e[i]);
@@ -43,29 +44,5 @@ namespace ParametersXmlAddin_UnitTests
 
         }
 
-        private static XElement Normalize(XElement element)
-        {
-            if (element.HasElements)
-            {
-                return new XElement(
-                    element.Name,
-                    element.Attributes()
-                           .OrderBy(a => a.Name.ToString()),
-                    element.Elements()
-                           .OrderBy(a => a.Name.ToString())
-                           .Select(e => Normalize(e)));
-            }
-
-            if (element.IsEmpty)
-            {
-                return new XElement(
-                    element.Name,
-                    element.Attributes()
-                           .OrderBy(a => a.Name.ToString()));
-            }
-
-            return new XElement(element.Name, element.Attributes()
-                .OrderBy(a => a.Name.ToString()), element.Value);
-        }
     }
 }

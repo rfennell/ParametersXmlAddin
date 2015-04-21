@@ -126,21 +126,36 @@ namespace BlackMarble.ParametersXmlAddin
 
             if (File.Exists(parametersXmlPath) == true)
             {
-                if (ShowYesNoBox(
+                switch (ShowYesNoBox(
                     "Generate parameters.xml",
-                    "A parameters.xml already exists in the project folder. Do you wish to replace it?") != MessageBoxReturnCode.IDYES)
+                    "A parameters.xml already exists in the project folder. Do you wish to replace it (Yes), update it (No) or Cancel?") )
                 {
+                    case MessageBoxReturnCode.IDYES:
+                        // generate the file
+                        XmlGenerator.GenerateParametersXmlFile(
+                            webConfigPath,
+                            parametersXmlPath);
+                        // add it to the project, this can be run multiple times
+                        VSHelper.AddFileToProject(vsProject, parametersXmlPath);
+
+                        Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "BlackMarble.ParametersXmlAddin: Exiting MenuItemCallback(): The file [{0}] added", parametersXmlPath));
+                        break;
+
+                    case MessageBoxReturnCode.IDNO:
+                        // generate the file
+                        XmlGenerator.UpdateParametersXmlFile(
+                            webConfigPath,
+                            parametersXmlPath);
+                        // add it to the project, this can be run multiple times
+                        VSHelper.AddFileToProject(vsProject, parametersXmlPath);
+
+                        Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "BlackMarble.ParametersXmlAddin: Exiting MenuItemCallback(): The file [{0}] updated", parametersXmlPath));
+                        break;
+
+                    default:
                     return;
                 }
             }
-            // generate the file
-            XmlGenerator.GenerateParametersXmlFile(
-                webConfigPath,
-                parametersXmlPath);
-            // add it to the project, this can be run multiple times
-            VSHelper.AddFileToProject(vsProject, parametersXmlPath);
-
-            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "BlackMarble.ParametersXmlAddin: Exiting MenuItemCallback(): The file [{0}] added", parametersXmlPath));
 
         }
      
