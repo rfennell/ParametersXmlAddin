@@ -126,6 +126,11 @@ namespace BlackMarble.ParametersXmlAddin
             updatedXml.Save(existingParametersXmlPath);
         }
 
+        /// <summary>
+        /// Loads a XML file and normalizes the contents
+        /// </summary>
+        /// <param name="fileName">The file</param>
+        /// <returns>Normalised block of XML</returns>
         private static XElement LoadNormalizedXml(string fileName)
         {
             using (var reader = new StreamReader(fileName, System.Text.Encoding.UTF8))

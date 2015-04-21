@@ -75,8 +75,8 @@ namespace ParametersXmlAddin_UnitTests
 
             // Assert
             XmlAssert.AreEqual(
-                new StreamReader(requiredFile, System.Text.Encoding.UTF8).ReadToEnd(),
-                new StreamReader(actualFile, System.Text.Encoding.UTF8).ReadToEnd());
+                File.ReadAllText(requiredFile, System.Text.Encoding.UTF8),
+                File.ReadAllText(actualFile, System.Text.Encoding.UTF8));
         }
 
 
@@ -94,8 +94,8 @@ namespace ParametersXmlAddin_UnitTests
 
             // assert
             XmlAssert.AreEqual(
-                new StreamReader(requiredFile, System.Text.Encoding.UTF8).ReadToEnd(),
-                new StreamReader(actualFile, System.Text.Encoding.UTF8).ReadToEnd());
+                File.ReadAllText(requiredFile, System.Text.Encoding.UTF8),
+                File.ReadAllText(actualFile, System.Text.Encoding.UTF8));
               
         }
 

@@ -124,41 +124,38 @@ namespace BlackMarble.ParametersXmlAddin
             // work out the parameters.xml path
             var parametersXmlPath = Path.Combine(Path.GetDirectoryName(webConfigPath), "parameters.xml");
 
-            if (File.Exists(parametersXmlPath) == true)
+            if (File.Exists(parametersXmlPath) == false ||
+                ShowYesNoBox(
+                "Generating parameters.xml",
+                "A parameters.xml file already exists in the project folder. Do you wish to replace it?") == MessageBoxReturnCode.IDYES)
             {
-                switch (ShowYesNoBox(
-                    "Generate parameters.xml",
-                    "A parameters.xml already exists in the project folder. Do you wish to replace it (Yes), update it (No) or Cancel?") )
-                {
-                    case MessageBoxReturnCode.IDYES:
-                        // generate the file
-                        XmlGenerator.GenerateParametersXmlFile(
-                            webConfigPath,
-                            parametersXmlPath);
-                        // add it to the project, this can be run multiple times
-                        VSHelper.AddFileToProject(vsProject, parametersXmlPath);
+                // generate the file
+                XmlGenerator.GenerateParametersXmlFile(
+                    webConfigPath,
+                    parametersXmlPath);
+                // add it to the project, this can be run multiple times
+                VSHelper.AddFileToProject(vsProject, parametersXmlPath);
 
-                        Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "BlackMarble.ParametersXmlAddin: Exiting MenuItemCallback(): The file [{0}] added", parametersXmlPath));
-                        break;
+                Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "BlackMarble.ParametersXmlAddin: Exiting MenuItemCallback(): The file [{0}] added", parametersXmlPath));
 
-                    case MessageBoxReturnCode.IDNO:
-                        // generate the file
-                        XmlGenerator.UpdateParametersXmlFile(
-                            webConfigPath,
-                            parametersXmlPath);
-                        // add it to the project, this can be run multiple times
-                        VSHelper.AddFileToProject(vsProject, parametersXmlPath);
 
-                        Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "BlackMarble.ParametersXmlAddin: Exiting MenuItemCallback(): The file [{0}] updated", parametersXmlPath));
-                        break;
+            }
+            else if (ShowYesNoBox(
+              "Generating parameters.xml",
+              "Do you wish to update the existing parameters.xml file with any new parameters?") == MessageBoxReturnCode.IDYES)
+            {
+                // updated the file
+                XmlGenerator.UpdateParametersXmlFile(
+                    webConfigPath,
+                    parametersXmlPath);
+                // add it to the project, this can be run multiple times
+                VSHelper.AddFileToProject(vsProject, parametersXmlPath);
 
-                    default:
-                    return;
-                }
+                Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "BlackMarble.ParametersXmlAddin: Exiting MenuItemCallback(): The file [{0}] updated", parametersXmlPath));
             }
 
         }
-     
+
 
         /// <summary>
         /// Checks if the selected node has a given file name
@@ -225,7 +222,7 @@ namespace BlackMarble.ParametersXmlAddin
                        message,
                        string.Empty,
                        0,
-                       OLEMSGBUTTON.OLEMSGBUTTON_YESNOCANCEL,
+                       OLEMSGBUTTON.OLEMSGBUTTON_YESNO,
                        OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST,
                        OLEMSGICON.OLEMSGICON_INFO,
                        0,        // false
