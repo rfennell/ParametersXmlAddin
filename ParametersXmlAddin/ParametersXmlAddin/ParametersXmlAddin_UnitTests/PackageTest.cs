@@ -37,6 +37,7 @@ namespace ParametersXmlAddin_UnitTests
         }
 
         [TestMethod()]
+        [Ignore]  // commented out see https://social.msdn.microsoft.com/Forums/vstudio/en-US/4400c6bc-c7d8-4004-9834-f5b765d25b17/vspackage-automatically-generated-test-fails-with-systeminvalidoperationexception-the-service?forum=vsx
         public void SetSite()
         {
             // Create the package
