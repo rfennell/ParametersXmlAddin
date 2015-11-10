@@ -1,3 +1,4 @@
+![Build Status](https://richardfennell.visualstudio.com/DefaultCollection/_apis/public/build/definitions/670b3a60-2021-47ab-a88b-d76ebd888a2f/10/badge)
 # MSDeploy Parameters.Xml Generator
 A tool to generate parameters.xml files for MSdeploy from existing web.config files.
 
