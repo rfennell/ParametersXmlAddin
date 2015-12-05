@@ -13,7 +13,7 @@ If the parameters.xml already exists in the folder (even if it is not a file in 
     <Icon>Resources/Package.ico</Icon>
   </Metadata>
   <Installation InstalledByMsi="false">
-    <InstallationTarget Version="[12.0,15.0)" Id="Microsoft.VisualStudio.Community" />
+    <InstallationTarget Version="[12.0,]" Id="Microsoft.VisualStudio.Community" />
   </Installation>
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
