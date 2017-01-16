@@ -17,18 +17,55 @@ namespace BlackMarble.ParametersXmlAddin
     internal static class XmlGenerator
     {
         /// <summary>
-        /// The resource that holds the XSLT template
+        /// Gets the name of the XSLT transform resource
         /// </summary>
-        private const string XSLTFILENAME = "BlackMarble.ParametersXmlAddin.Resources.ParametersTransform.xslt";
+        /// <param name="forceUppercase">Set the token as upper case</param>
+        /// <param name="addDescription">Add a description</param>
+        /// <returns>The file name</returns>
+        private static string GetTransformresourceName(bool forceUppercase, bool addDescription)
+        {
+            if (forceUppercase == true)
+            {
+                if (addDescription == true)
+                {
+                    return "BlackMarble.ParametersXmlAddin.Resources.ParametersUppercaseTransform.xslt";
+                }
+                else
+                {
+                    return "BlackMarble.ParametersXmlAddin.Resources.ParametersUppercaseNoDescription.xslt";
+                }
+            }
+            else
+            {
+                if (addDescription == true)
+                {
+                    return "BlackMarble.ParametersXmlAddin.Resources.ParametersPreserveTransform.xslt";
+                }
+                else
+                {
+                    return "BlackMarble.ParametersXmlAddin.Resources.ParametersPreserveTransformNoDescription.xslt";
+                }
+            }
+
+        }
 
         /// <summary>
         /// Generates a new file from a config file using the XSLT transform stored as an embedded resource
         /// </summary>
         /// <param name="inFile">The source web.config file</param>
         /// <param name="outFile">The target parameters.xml</param>
-        internal static void GenerateParametersXmlFile(string inFile, string outFile)
+        /// <param name="forceUppercase">Set the token as upper case</param>
+        /// <param name="addDescription">Add a description</param>
+
+        internal static void GenerateParametersXmlFile(
+            string inFile,
+            string outFile,
+            bool forceUppercase,
+            bool addDescription)
         {
-            using (var strm = Assembly.GetExecutingAssembly().GetManifestResourceStream(XSLTFILENAME))
+            var transformFile = XmlGenerator.GetTransformresourceName(forceUppercase, addDescription);
+
+            using (var strm = Assembly.GetExecutingAssembly().GetManifestResourceStream(transformFile))
             {
                 using (XmlReader reader = XmlReader.Create(strm))
                 {
@@ -58,27 +95,42 @@ namespace BlackMarble.ParametersXmlAddin
 
         /// <summary>
         /// Updates an existing file from a config file using the XSLT transform stored as an embedded resource
-        /// Any new entries are added, any existing ones are not touch, neither updated or removed
+        /// Any new entries are added, any existing ones are not touched, neither updated or removed
         /// </summary>
         /// <param name="webConfigPath">The source web.config file</param>
         /// <param name="parametersXmlPath">The target parameters.xml</param>
+        /// <param name="forceUppercase">Set the token as upper case</param>
+        /// <param name="addDescription">Add a description</param>
 
-        internal static void UpdateParametersXmlFile(string webConfigPath, string parametersXmlPath)
+        internal static void UpdateParametersXmlFile(
+            string webConfigPath,
+            string parametersXmlPath,
+             bool forceUppercase,
+            bool addDescription)
         {
-            UpdateParametersXmlFile(webConfigPath, parametersXmlPath, System.IO.Path.GetTempFileName());
+            UpdateParametersXmlFile(webConfigPath, parametersXmlPath, System.IO.Path.GetTempFileName(), forceUppercase, addDescription);
         }
 
         /// <summary>
         /// Updates an existing file from a config file using the XSLT transform stored as an embedded resource
-        /// Any new entries are added, any existing ones are not touch, neither updated or removed
+        /// Any new entries are added, any existing ones are not touched, neither updated or removed
         /// </summary>
         /// <param name="webConfigPath">The source web.config file</param>
         /// <param name="existingParametersXmlPath">The target parameters.xml</param>
         /// <param name="newParametersXmlPath">The temporary location to generate the file into</param>
+        /// <param name="forceUppercase">Set the token as upper case</param>
+        /// <param name="addDescription">Add a description</param>
 
-        internal static void UpdateParametersXmlFile(string webConfigPath, string existingParametersXmlPath, string newParametersXmlPath)
+        internal static void UpdateParametersXmlFile(
+            string webConfigPath,
+            string existingParametersXmlPath,
+            string newParametersXmlPath,
+            bool forceUppercase,
+            bool addDescription)
         {
-            using (var strm = Assembly.GetExecutingAssembly().GetManifestResourceStream(XSLTFILENAME))
+            var transformFile = XmlGenerator.GetTransformresourceName(forceUppercase, addDescription);
+
+            using (var strm = Assembly.GetExecutingAssembly().GetManifestResourceStream(transformFile))
             {
                 using (XmlReader reader = XmlReader.Create(strm))
                 {

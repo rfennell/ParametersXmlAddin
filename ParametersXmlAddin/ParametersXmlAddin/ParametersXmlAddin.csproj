@@ -129,6 +129,9 @@
   <ItemGroup>
     <Compile Include="MessageBoxReturnCode.cs" />
     <Compile Include="Guids.cs" />
+    <Compile Include="OptionPageGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -177,7 +180,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <EmbeddedResource Include="Resources\ParametersTransform.xslt" />
+    <EmbeddedResource Include="Resources\ParametersPreserveTransform.xslt" />
+    <EmbeddedResource Include="Resources\ParametersPreserveTransformNoDescription.xslt" />
+    <EmbeddedResource Include="Resources\ParametersUppercaseNoDescription.xslt" />
+    <EmbeddedResource Include="Resources\ParametersUppercaseTransform.xslt" />
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>

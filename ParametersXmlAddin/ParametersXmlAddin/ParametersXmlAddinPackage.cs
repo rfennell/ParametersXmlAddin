@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
+using System.ComponentModel;
 using Microsoft.Win32;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -36,6 +37,8 @@ namespace BlackMarble.ParametersXmlAddin
     // UICONTEXT_SolutionExists constant, which means the the package will auto-load when a solution exists 
     // (so when we create a new one or load one). 
     [ProvideAutoLoad("{f1536ef8-92ec-443c-9ed7-fdadf150da82}")]
+    [ProvideOptionPage(typeof(OptionPageGrid),
+    "Parameters XML Addin", "General", 0, 0, true)]
     public sealed class ParametersXmlAddinPackage : Package
     {
         /// <summary>
@@ -103,7 +106,7 @@ namespace BlackMarble.ParametersXmlAddin
         private void MenuItemCallback(object sender, EventArgs e)
         {
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "BlackMarble.ParametersXmlAddin: Entering MenuItemCallback()"));
-
+            
             // get the project object
             IVsHierarchy hierarchy = null;
             uint itemid = VSConstants.VSITEMID_NIL;
@@ -132,7 +135,10 @@ namespace BlackMarble.ParametersXmlAddin
                 // generate the file
                 XmlGenerator.GenerateParametersXmlFile(
                     webConfigPath,
-                    parametersXmlPath);
+                    parametersXmlPath,
+                    this.MakeTokenUpperCase, 
+                    this.AddDefaultDescription);
+
                 // add it to the project, this can be run multiple times
                 VSHelper.AddFileToProject(vsProject, parametersXmlPath);
 
@@ -147,7 +153,10 @@ namespace BlackMarble.ParametersXmlAddin
                 // updated the file
                 XmlGenerator.UpdateParametersXmlFile(
                     webConfigPath,
-                    parametersXmlPath);
+                    parametersXmlPath,
+                    this.MakeTokenUpperCase, 
+                    this.AddDefaultDescription);
+
                 // add it to the project, this can be run multiple times
                 VSHelper.AddFileToProject(vsProject, parametersXmlPath);
 
@@ -230,5 +239,30 @@ namespace BlackMarble.ParametersXmlAddin
 
             return (MessageBoxReturnCode)result;
         }
+
+        /// <summary>
+        /// Get option settings for forcing tokens to upper case
+        /// </summary>
+        public bool MakeTokenUpperCase
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.MakeTokenUpperCase;
+            }
+        }
+
+        /// <summary>
+        /// Gets the option setting for using default description
+        /// </summary>
+        public bool AddDefaultDescription
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.AddDefaultDescription;
+            }
+        }
+
     }
 }

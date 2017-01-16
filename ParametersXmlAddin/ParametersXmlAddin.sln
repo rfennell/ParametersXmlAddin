@@ -11,9 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParametersXmlAddin", "ParametersXmlAddin\ParametersXmlAddin.csproj", "{57D29309-9D7B-4401-BBA0-DD6CCAA3DF1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParametersXmlAddin_IntegrationTests", "ParametersXmlAddin\ParametersXmlAddin_IntegrationTests\ParametersXmlAddin_IntegrationTests.csproj", "{F4400549-C01B-487E-99E4-55CC34D43EEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParametersXmlAddin_IntegrationTests", "ParametersXmlAddin_IntegrationTests\ParametersXmlAddin_IntegrationTests.csproj", "{F4400549-C01B-487E-99E4-55CC34D43EEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParametersXmlAddin_UnitTests", "ParametersXmlAddin\ParametersXmlAddin_UnitTests\ParametersXmlAddin_UnitTests.csproj", "{E2F2C2FE-BA37-4FAA-84AF-2C75FF06C58B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParametersXmlAddin_UnitTests", "ParametersXmlAddin_UnitTests\ParametersXmlAddin_UnitTests.csproj", "{E2F2C2FE-BA37-4FAA-84AF-2C75FF06C58B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

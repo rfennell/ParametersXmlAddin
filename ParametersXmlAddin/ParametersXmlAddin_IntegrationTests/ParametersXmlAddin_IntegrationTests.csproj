@@ -73,7 +73,7 @@
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ParametersXmlAddin.csproj">
+    <ProjectReference Include="..\ParametersXmlAddin\ParametersXmlAddin.csproj">
       <Project>{57D29309-9D7B-4401-BBA0-DD6CCAA3DF1C}</Project>
       <Name>ParametersXmlAddin</Name>
     </ProjectReference>

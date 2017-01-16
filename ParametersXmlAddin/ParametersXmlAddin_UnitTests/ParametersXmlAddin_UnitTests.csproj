@@ -76,18 +76,53 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ParametersXmlAddin.csproj">
+    <ProjectReference Include="..\ParametersXmlAddin\ParametersXmlAddin.csproj">
       <Project>{57D29309-9D7B-4401-BBA0-DD6CCAA3DF1C}</Project>
       <Name>ParametersXmlAddin</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Testdata\Parameters.XML">
+    <None Include="Testdata\ParametersUppercaseWithDescription.XML">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Testdata\ParametersMixedcaseWithDescription.XML">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Testdata\ParametersMixedcaseWithNoDescription.XML">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Testdata\ParametersUppercaseWithNoDescription.XML">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Testdata\ParametersMissingEntries.XML">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Testdata\ParametersMixedcaseWithDescription - Update.XML">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Testdata\ParametersUppercaseWithDescription - Update.XML">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Testdata\ParametersMixedcaseWithNoDescription - Update.XML">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Testdata\ParametersUppercaseWithNoDescription - Update.XML">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
