@@ -13,7 +13,7 @@ If the parameters.xml already exists in the folder (even if it is not a file in 
     <Icon>Resources/Package.ico</Icon>
   </Metadata>
   <Installation InstalledByMsi="false">
-    <InstallationTarget Version="[12.0,15.0)" Id="Microsoft.VisualStudio.IntegratedShell" />
+    <InstallationTarget Version="[12.0,16.0)" Id="Microsoft.VisualStudio.IntegratedShell" />
   </Installation>
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
@@ -22,4 +22,7 @@ If the parameters.xml already exists in the folder (even if it is not a file in 
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
   </Assets>
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0.26004.1,16.0)" DisplayName="Visual Studio core editor" />
+  </Prerequisites>
 </PackageManifest>
