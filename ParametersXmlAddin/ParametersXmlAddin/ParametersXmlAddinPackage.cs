@@ -137,8 +137,9 @@ namespace BlackMarble.ParametersXmlAddin
                     webConfigPath,
                     parametersXmlPath,
                     this.MakeTokenUpperCase, 
-                    this.AddDefaultDescription);
-
+                    this.AddDefaultDescription,
+                    this.Delimiter);
+                
                 // add it to the project, this can be run multiple times
                 VSHelper.AddFileToProject(vsProject, parametersXmlPath);
 
@@ -155,7 +156,8 @@ namespace BlackMarble.ParametersXmlAddin
                     webConfigPath,
                     parametersXmlPath,
                     this.MakeTokenUpperCase, 
-                    this.AddDefaultDescription);
+                    this.AddDefaultDescription,
+                    this.Delimiter);
 
                 // add it to the project, this can be run multiple times
                 VSHelper.AddFileToProject(vsProject, parametersXmlPath);
@@ -249,6 +251,18 @@ namespace BlackMarble.ParametersXmlAddin
             {
                 OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
                 return page.MakeTokenUpperCase;
+            }
+        }
+
+        /// <summary>
+        /// Get option settings for delimiter
+        /// </summary>
+        public string Delimiter
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.Delimiter;
             }
         }
 

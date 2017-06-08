@@ -17,6 +17,25 @@ namespace BlackMarble.ParametersXmlAddin
     internal static class XmlGenerator
     {
         /// <summary>
+        /// Replaces the delimiter in use in the template
+        /// </summary>
+        /// <param name="fileName">The file to update</param>
+        /// <param name="oldDelimiter">Old delimiter - usually __</param>
+        /// <param name="newDelimiter">What ever you need</param>
+        /// <returns></returns>
+        internal static void SwapDelimiter(string fileName, string oldDelimiter, string newDelimiter)
+        {
+            if (!oldDelimiter.Equals(newDelimiter))
+            {
+                var fileContent = File.ReadAllText(fileName, System.Text.Encoding.UTF8);
+                File.WriteAllText(
+                    fileName,
+                    fileContent.Replace(oldDelimiter, newDelimiter),
+                    System.Text.Encoding.UTF8);
+            }
+        }
+
+        /// <summary>
         /// Gets the name of the XSLT transform resource
         /// </summary>
         /// <param name="forceUppercase">Set the token as upper case</param>
@@ -56,15 +75,16 @@ namespace BlackMarble.ParametersXmlAddin
         /// <param name="outFile">The target parameters.xml</param>
         /// <param name="forceUppercase">Set the token as upper case</param>
         /// <param name="addDescription">Add a description</param>
+        /// <param name="delimiter">Demlimter override</param>
 
         internal static void GenerateParametersXmlFile(
             string inFile,
             string outFile,
             bool forceUppercase,
-            bool addDescription)
+            bool addDescription,
+            string delimiter)
         {
             var transformFile = XmlGenerator.GetTransformresourceName(forceUppercase, addDescription);
-
             using (var strm = Assembly.GetExecutingAssembly().GetManifestResourceStream(transformFile))
             {
                 using (XmlReader reader = XmlReader.Create(strm))
@@ -75,6 +95,7 @@ namespace BlackMarble.ParametersXmlAddin
                     GenerateParametersXmlFile(inFile, outFile, transform);
                 }
             }
+            XmlGenerator.SwapDelimiter(outFile, OptionPageGrid.DEFAULTDELIMITER, delimiter);
         }
 
         /// <summary>
@@ -101,14 +122,22 @@ namespace BlackMarble.ParametersXmlAddin
         /// <param name="parametersXmlPath">The target parameters.xml</param>
         /// <param name="forceUppercase">Set the token as upper case</param>
         /// <param name="addDescription">Add a description</param>
+        /// <param name="delimiter">Delimiter to be used for replacement</param>
 
         internal static void UpdateParametersXmlFile(
             string webConfigPath,
             string parametersXmlPath,
-             bool forceUppercase,
-            bool addDescription)
+            bool forceUppercase,
+            bool addDescription,
+            string delimiter)
         {
-            UpdateParametersXmlFile(webConfigPath, parametersXmlPath, System.IO.Path.GetTempFileName(), forceUppercase, addDescription);
+            UpdateParametersXmlFile(
+                webConfigPath, 
+                parametersXmlPath, 
+                System.IO.Path.GetTempFileName(), 
+                forceUppercase, 
+                addDescription,
+                delimiter);
         }
 
         /// <summary>
@@ -120,13 +149,16 @@ namespace BlackMarble.ParametersXmlAddin
         /// <param name="newParametersXmlPath">The temporary location to generate the file into</param>
         /// <param name="forceUppercase">Set the token as upper case</param>
         /// <param name="addDescription">Add a description</param>
+        /// <param name="delimiter">Delimiter to be used for replacement</param>
 
         internal static void UpdateParametersXmlFile(
             string webConfigPath,
             string existingParametersXmlPath,
             string newParametersXmlPath,
             bool forceUppercase,
-            bool addDescription)
+            bool addDescription,
+            string delimiter)
+
         {
             var transformFile = XmlGenerator.GetTransformresourceName(forceUppercase, addDescription);
 
@@ -140,6 +172,7 @@ namespace BlackMarble.ParametersXmlAddin
                     UpdateParametersXmlFile(webConfigPath, existingParametersXmlPath, newParametersXmlPath, transform);
                 }
             }
+            XmlGenerator.SwapDelimiter(existingParametersXmlPath, OptionPageGrid.DEFAULTDELIMITER, delimiter);
         }
 
         /// <summary>

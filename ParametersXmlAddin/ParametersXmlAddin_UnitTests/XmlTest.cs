@@ -79,7 +79,12 @@ namespace ParametersXmlAddin_UnitTests
             var actualFile = "results.xml";
 
             // act
-            BlackMarble.ParametersXmlAddin.XmlGenerator.GenerateParametersXmlFile(sourceFile, actualFile, true, true);
+            BlackMarble.ParametersXmlAddin.XmlGenerator.GenerateParametersXmlFile(
+                sourceFile, 
+                actualFile, 
+                true, 
+                true,
+                BlackMarble.ParametersXmlAddin.OptionPageGrid.DEFAULTDELIMITER);
 
             // Assert
             XmlAssert.AreEqual(
@@ -96,7 +101,12 @@ namespace ParametersXmlAddin_UnitTests
             var actualFile = "results.xml";
 
             // act
-            BlackMarble.ParametersXmlAddin.XmlGenerator.GenerateParametersXmlFile(sourceFile, actualFile, false, true);
+            BlackMarble.ParametersXmlAddin.XmlGenerator.GenerateParametersXmlFile(
+                sourceFile, 
+                actualFile, 
+                false, 
+                true,
+                BlackMarble.ParametersXmlAddin.OptionPageGrid.DEFAULTDELIMITER);
 
             // Assert
             XmlAssert.AreEqual(
@@ -113,7 +123,12 @@ namespace ParametersXmlAddin_UnitTests
             var actualFile = "results.xml";
 
             // act
-            BlackMarble.ParametersXmlAddin.XmlGenerator.GenerateParametersXmlFile(sourceFile, actualFile, true, false);
+            BlackMarble.ParametersXmlAddin.XmlGenerator.GenerateParametersXmlFile(
+                sourceFile, 
+                actualFile, 
+                true, 
+                false,
+                BlackMarble.ParametersXmlAddin.OptionPageGrid.DEFAULTDELIMITER);
 
             // Assert
             XmlAssert.AreEqual(
@@ -130,8 +145,36 @@ namespace ParametersXmlAddin_UnitTests
             var actualFile = "results.xml";
 
             // act
-            BlackMarble.ParametersXmlAddin.XmlGenerator.GenerateParametersXmlFile(sourceFile, actualFile, false, false);
+            BlackMarble.ParametersXmlAddin.XmlGenerator.GenerateParametersXmlFile(
+                sourceFile, 
+                actualFile, 
+                false,
+                false,
+                BlackMarble.ParametersXmlAddin.OptionPageGrid.DEFAULTDELIMITER);
 
+            // Assert
+            XmlAssert.AreEqual(
+                File.ReadAllText(requiredFile, System.Text.Encoding.UTF8),
+                File.ReadAllText(actualFile, System.Text.Encoding.UTF8));
+        }
+
+        [TestMethod]
+        public void Can_generate_a_new_parameters_file_in_mixedcase_with_description_swap_delimiter()
+        {
+            // Arrange 
+            var sourceFile = Path.Combine(GetWorkingFolder(), @"testdata\web.config");
+            var requiredFile = Path.Combine(GetWorkingFolder(), @"testdata\ParametersMixedcaseWithDescriptionDelimiterSwapped.xml");
+            var actualFile = "results.xml";
+
+            // act
+            BlackMarble.ParametersXmlAddin.XmlGenerator.GenerateParametersXmlFile(
+                sourceFile,
+                actualFile,
+                false,
+                true,
+                "##");
+
+            Console.WriteLine(File.ReadAllText(actualFile, System.Text.Encoding.UTF8));
             // Assert
             XmlAssert.AreEqual(
                 File.ReadAllText(requiredFile, System.Text.Encoding.UTF8),
@@ -148,7 +191,35 @@ namespace ParametersXmlAddin_UnitTests
             File.Copy(Path.Combine(GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile,true);
 
             // act
-            BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(sourceFile, existingFile, true, true);
+            BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(
+                sourceFile, 
+                existingFile, 
+                true, 
+                true,
+                BlackMarble.ParametersXmlAddin.OptionPageGrid.DEFAULTDELIMITER);
+
+            // assert
+            XmlAssert.AreEqual(
+                File.ReadAllText(requiredFile, System.Text.Encoding.UTF8),
+                File.ReadAllText(existingFile, System.Text.Encoding.UTF8));
+        }
+
+        [TestMethod]
+        public void Can_update_and_existing_parameters_file_with_uppercase_and_description_swap_delimiter()
+        {
+            // Arrange 
+            var sourceFile = Path.Combine(GetWorkingFolder(), @"testdata\web.config");
+            var requiredFile = Path.Combine(GetWorkingFolder(), @"testdata\ParametersUppercaseWithDescriptionDelimiterSwapper - Update.xml");
+            var existingFile = Path.Combine(GetWorkingFolder(), @"testdata\TestFile.XML");
+            File.Copy(Path.Combine(GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile, true);
+
+            // act
+            BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(
+                sourceFile,
+                existingFile,
+                true,
+                true,
+                "##");
 
             // assert
             XmlAssert.AreEqual(
@@ -166,7 +237,12 @@ namespace ParametersXmlAddin_UnitTests
             File.Copy(Path.Combine(GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile, true);
 
             // act
-            BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(sourceFile, existingFile, false, true);
+            BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(
+                sourceFile, 
+                existingFile, 
+                false, 
+                true,
+                BlackMarble.ParametersXmlAddin.OptionPageGrid.DEFAULTDELIMITER);
 
             // assert
             XmlAssert.AreEqual(
@@ -185,7 +261,12 @@ namespace ParametersXmlAddin_UnitTests
             File.Copy(Path.Combine(GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile, true);
 
             // act
-            BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(sourceFile, existingFile, true, false);
+            BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(
+                sourceFile, 
+                existingFile, 
+                true, 
+                false,
+                BlackMarble.ParametersXmlAddin.OptionPageGrid.DEFAULTDELIMITER);
 
             // assert
             XmlAssert.AreEqual(
@@ -203,7 +284,12 @@ namespace ParametersXmlAddin_UnitTests
             File.Copy(Path.Combine(GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile, true);
 
             // act
-            BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(sourceFile, existingFile, false, false);
+            BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(
+                sourceFile, 
+                existingFile, 
+                false, 
+                false,
+                BlackMarble.ParametersXmlAddin.OptionPageGrid.DEFAULTDELIMITER);
 
             // assert
             XmlAssert.AreEqual(

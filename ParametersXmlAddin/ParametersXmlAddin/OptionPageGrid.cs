@@ -10,8 +10,10 @@ namespace BlackMarble.ParametersXmlAddin
 {
      public class OptionPageGrid : DialogPage
     {
+        public const string DEFAULTDELIMITER = "__";
         private bool makeTokenUpperCase = true;
         private bool addDefaultDescription = true;
+        private string delimiter = DEFAULTDELIMITER;
 
         [Category("Options")]
         [DisplayName("Make Tokens Uppercase")]
@@ -30,5 +32,15 @@ namespace BlackMarble.ParametersXmlAddin
             get { return addDefaultDescription; }
             set { addDefaultDescription = value; }
         }
+
+        [Category("Options")]
+        [DisplayName("Replacement Delimiter")]
+        [Description("The delimiter to be used to find items to be replaced in later processing")]
+        public string Delimiter
+        {
+            get { return delimiter; }
+            set { delimiter = value; }
+        }
+
     }
 }
