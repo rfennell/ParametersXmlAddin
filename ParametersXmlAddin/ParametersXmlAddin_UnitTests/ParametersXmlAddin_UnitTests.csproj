@@ -120,6 +120,16 @@
       <Name>ParametersXmlAddin</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Testdata\ParametersMixedcaseWithDescriptionDelimiterSwapped.XML">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Testdata\ParametersUppercaseWithDescriptionDelimiterSwapper - Update.XML">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
