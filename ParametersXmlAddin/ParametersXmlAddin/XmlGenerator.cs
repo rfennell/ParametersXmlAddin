@@ -71,7 +71,7 @@ namespace BlackMarble.ParametersXmlAddin
         /// <summary>
         /// Generates a new file from a config file using the XSLT transform stored as an embedded resource
         /// </summary>
-        /// <param name="inFile">The source web.config file</param>
+        /// <param name="inFile">The source app.config or web.config file</param>
         /// <param name="outFile">The target parameters.xml</param>
         /// <param name="forceUppercase">Set the token as upper case</param>
         /// <param name="addDescription">Add a description</param>
@@ -118,7 +118,7 @@ namespace BlackMarble.ParametersXmlAddin
         /// Updates an existing file from a config file using the XSLT transform stored as an embedded resource
         /// Any new entries are added, any existing ones are not touched, neither updated or removed
         /// </summary>
-        /// <param name="configPath">The source web.config file</param>
+        /// <param name="configPath">The source app.config or web.config file</param>
         /// <param name="parametersXmlPath">The target parameters.xml</param>
         /// <param name="forceUppercase">Set the token as upper case</param>
         /// <param name="addDescription">Add a description</param>
@@ -144,7 +144,7 @@ namespace BlackMarble.ParametersXmlAddin
         /// Updates an existing file from a config file using the XSLT transform stored as an embedded resource
         /// Any new entries are added, any existing ones are not touched, neither updated or removed
         /// </summary>
-        /// <param name="configPath">The source web.config file</param>
+        /// <param name="configPath">The source app.config or web.config file</param>
         /// <param name="existingParametersXmlPath">The target parameters.xml</param>
         /// <param name="newParametersXmlPath">The temporary location to generate the file into</param>
         /// <param name="forceUppercase">Set the token as upper case</param>
@@ -179,7 +179,7 @@ namespace BlackMarble.ParametersXmlAddin
         /// Updates an existing file from a config file using the XSLT transform stored as an embedded resource
         /// Any new entries are added, any existing ones are not touch, neither updated or removed
         /// </summary>
-        /// <param name="configPath">The source web.config file</param>
+        /// <param name="configPath">The source app.config or web.config file</param>
         /// <param name="parametersXmlPath">The target parameters.xml</param>
         /// <param name="transform">The transform loaded to apply to the files</param>
 
