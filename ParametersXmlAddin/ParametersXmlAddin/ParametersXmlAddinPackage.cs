@@ -94,7 +94,7 @@ namespace BlackMarble.ParametersXmlAddin
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "BlackMarble.ParametersXmlAddin: Entering BeforeQueryStatus()"));
 
             var myCommand = sender as OleMenuCommand;
-            myCommand.Visible = CurrentSelectionHasName("web.config");
+            myCommand.Visible = CurrentSelectionHasName("web.config") || CurrentSelectionHasName("app.config");
         }
 
 
@@ -119,13 +119,13 @@ namespace BlackMarble.ParametersXmlAddin
             var vsProject = (IVsProject)hierarchy;
 
             // get the name of the web.config file
-            string webConfigPath = null;
-            if (ErrorHandler.Failed(vsProject.GetMkDocument(itemid, out webConfigPath)))
+            string configPath = null;
+            if (ErrorHandler.Failed(vsProject.GetMkDocument(itemid, out configPath)))
             {
                 return;
             }
             // work out the parameters.xml path
-            var parametersXmlPath = Path.Combine(Path.GetDirectoryName(webConfigPath), "parameters.xml");
+            var parametersXmlPath = Path.Combine(Path.GetDirectoryName(configPath), "parameters.xml");
 
             if (File.Exists(parametersXmlPath) == false ||
                 ShowYesNoBox(
@@ -134,7 +134,7 @@ namespace BlackMarble.ParametersXmlAddin
             {
                 // generate the file
                 XmlGenerator.GenerateParametersXmlFile(
-                    webConfigPath,
+                    configPath,
                     parametersXmlPath,
                     this.MakeTokenUpperCase, 
                     this.AddDefaultDescription,
@@ -153,7 +153,7 @@ namespace BlackMarble.ParametersXmlAddin
             {
                 // updated the file
                 XmlGenerator.UpdateParametersXmlFile(
-                    webConfigPath,
+                    configPath,
                     parametersXmlPath,
                     this.MakeTokenUpperCase, 
                     this.AddDefaultDescription,
