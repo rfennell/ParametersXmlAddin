@@ -3,9 +3,9 @@
     <Metadata>
         <Identity Id="633e9230-4287-47ed-8a7a-bbbdc80569f4" Version="1.7" Language="en-US" Publisher="Richard Fennell" />
         <DisplayName>Parameters.Xml Generator</DisplayName>
-        <Description xml:space="preserve">A tool to generate parameters.xml files for MSdeploy from existing web.config or from an app.config if uisng some other deplyment mode.
+        <Description xml:space="preserve">A tool to generate parameters.xml files for MSdeploy from existing web.config or from an app.config if uisng some other deployment mode.
 
-To use right click on a web.config file in Solution Explorer and the parameters.xml file will be generated using the current web.config entries as default values for both configuration/applicationSettings and configuration/AppSettings.
+To use right click on an app.config or web.config file in Solution Explorer and the parameters.xml file will be generated using the current web.config entries as default values for both configuration/applicationSettings and configuration/AppSettings.
 
 If the parameters.xml already exists in the folder (even if it is not a file in the project) you will prompted before it is overwritten.</Description>
         <MoreInfo>https://github.com/rfennell/ParametersXmlAddin</MoreInfo>

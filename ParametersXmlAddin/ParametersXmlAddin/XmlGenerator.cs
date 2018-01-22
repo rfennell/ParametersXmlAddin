@@ -108,9 +108,15 @@ namespace BlackMarble.ParametersXmlAddin
         private static void GenerateParametersXmlFile(string configPath, string parametersXmlPath, XslCompiledTransform transform)
         {
             XPathDocument xPathDoc = new XPathDocument(configPath);
+         
+            // Create the XsltArgumentList.
+            XsltArgumentList xslArg = new XsltArgumentList();
+            // Create a parameter which represents the file name scope
+            xslArg.AddParam("file", "", Path.GetFileName(configPath));
+
             using (XmlTextWriter writer = new XmlTextWriter(parametersXmlPath, System.Text.Encoding.UTF8))
             {
-                transform.Transform(xPathDoc, null, writer);
+                transform.Transform(xPathDoc, xslArg, writer);
             }
         }
 
