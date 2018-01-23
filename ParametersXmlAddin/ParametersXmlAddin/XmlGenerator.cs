@@ -71,7 +71,7 @@ namespace BlackMarble.ParametersXmlAddin
         /// <summary>
         /// Generates a new file from a config file using the XSLT transform stored as an embedded resource
         /// </summary>
-        /// <param name="inFile">The source web.config file</param>
+        /// <param name="inFile">The source app.config or web.config file</param>
         /// <param name="outFile">The target parameters.xml</param>
         /// <param name="forceUppercase">Set the token as upper case</param>
         /// <param name="addDescription">Add a description</param>
@@ -102,15 +102,21 @@ namespace BlackMarble.ParametersXmlAddin
         /// Generates a new file from a config file using the XSLT transform stored as an embedded resource
         /// This replaces any existing parameters file
         /// </summary>
-        /// <param name="webConfigPath">The source web.config file</param>
+        /// <param name="configPath">The source app.config or web.config file</param>
         /// <param name="parametersXmlPath">The target parameters.xml</param>
         /// <param name="transform">The transform loaded to apply to the files</param>
-        private static void GenerateParametersXmlFile(string webConfigPath, string parametersXmlPath, XslCompiledTransform transform)
+        private static void GenerateParametersXmlFile(string configPath, string parametersXmlPath, XslCompiledTransform transform)
         {
-            XPathDocument xPathDoc = new XPathDocument(webConfigPath);
+            XPathDocument xPathDoc = new XPathDocument(configPath);
+         
+            // Create the XsltArgumentList.
+            XsltArgumentList xslArg = new XsltArgumentList();
+            // Create a parameter which represents the file name scope
+            xslArg.AddParam("file", "", Path.GetFileName(configPath));
+
             using (XmlTextWriter writer = new XmlTextWriter(parametersXmlPath, System.Text.Encoding.UTF8))
             {
-                transform.Transform(xPathDoc, null, writer);
+                transform.Transform(xPathDoc, xslArg, writer);
             }
         }
 
@@ -118,21 +124,21 @@ namespace BlackMarble.ParametersXmlAddin
         /// Updates an existing file from a config file using the XSLT transform stored as an embedded resource
         /// Any new entries are added, any existing ones are not touched, neither updated or removed
         /// </summary>
-        /// <param name="webConfigPath">The source web.config file</param>
+        /// <param name="configPath">The source app.config or web.config file</param>
         /// <param name="parametersXmlPath">The target parameters.xml</param>
         /// <param name="forceUppercase">Set the token as upper case</param>
         /// <param name="addDescription">Add a description</param>
         /// <param name="delimiter">Delimiter to be used for replacement</param>
 
         internal static void UpdateParametersXmlFile(
-            string webConfigPath,
+            string configPath,
             string parametersXmlPath,
             bool forceUppercase,
             bool addDescription,
             string delimiter)
         {
             UpdateParametersXmlFile(
-                webConfigPath, 
+                configPath, 
                 parametersXmlPath, 
                 System.IO.Path.GetTempFileName(), 
                 forceUppercase, 
@@ -144,7 +150,7 @@ namespace BlackMarble.ParametersXmlAddin
         /// Updates an existing file from a config file using the XSLT transform stored as an embedded resource
         /// Any new entries are added, any existing ones are not touched, neither updated or removed
         /// </summary>
-        /// <param name="webConfigPath">The source web.config file</param>
+        /// <param name="configPath">The source app.config or web.config file</param>
         /// <param name="existingParametersXmlPath">The target parameters.xml</param>
         /// <param name="newParametersXmlPath">The temporary location to generate the file into</param>
         /// <param name="forceUppercase">Set the token as upper case</param>
@@ -152,7 +158,7 @@ namespace BlackMarble.ParametersXmlAddin
         /// <param name="delimiter">Delimiter to be used for replacement</param>
 
         internal static void UpdateParametersXmlFile(
-            string webConfigPath,
+            string configPath,
             string existingParametersXmlPath,
             string newParametersXmlPath,
             bool forceUppercase,
@@ -169,7 +175,7 @@ namespace BlackMarble.ParametersXmlAddin
                     XslCompiledTransform transform = new XslCompiledTransform();
                     transform.Load(reader);
 
-                    UpdateParametersXmlFile(webConfigPath, existingParametersXmlPath, newParametersXmlPath, transform);
+                    UpdateParametersXmlFile(configPath, existingParametersXmlPath, newParametersXmlPath, transform);
                 }
             }
             XmlGenerator.SwapDelimiter(existingParametersXmlPath, OptionPageGrid.DEFAULTDELIMITER, delimiter);
@@ -179,13 +185,13 @@ namespace BlackMarble.ParametersXmlAddin
         /// Updates an existing file from a config file using the XSLT transform stored as an embedded resource
         /// Any new entries are added, any existing ones are not touch, neither updated or removed
         /// </summary>
-        /// <param name="webConfigPath">The source web.config file</param>
+        /// <param name="configPath">The source app.config or web.config file</param>
         /// <param name="parametersXmlPath">The target parameters.xml</param>
         /// <param name="transform">The transform loaded to apply to the files</param>
 
-        internal static void UpdateParametersXmlFile(string webConfigPath, string existingParametersXmlPath, string newParametersXmlPath, XslCompiledTransform transform)
+        internal static void UpdateParametersXmlFile(string configPath, string existingParametersXmlPath, string newParametersXmlPath, XslCompiledTransform transform)
         {
-            GenerateParametersXmlFile(webConfigPath, newParametersXmlPath, transform);
+            GenerateParametersXmlFile(configPath, newParametersXmlPath, transform);
 
             // what we think the xml should be
             var generatedXml = LoadNormalizedXml(newParametersXmlPath);

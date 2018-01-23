@@ -12,9 +12,9 @@ namespace ParametersXmlAddin_UnitTests
     /// Summary description for XmltTest
     /// </summary>
     [TestClass]
-    public class XmlTest
+    public class ProcessWebConfigTests
     {
-        public XmlTest()
+        public ProcessWebConfigTests()
         {
             //
             // TODO: Add constructor logic here
@@ -61,23 +61,14 @@ namespace ParametersXmlAddin_UnitTests
         //
         #endregion
 
-        private string GetWorkingFolder()
-        {
-            //get the full location of the assembly with DaoTests in it
-            string fullPath = System.Reflection.Assembly.GetAssembly(typeof(XmlTest)).Location;
-            //get the folder that's in
-            return Path.GetDirectoryName(fullPath);
-
-        }
-
         [TestMethod]
         public void Can_generate_a_new_parameters_file_in_uppercase_with_description()
         {
             // Arrange 
-            var sourceFile = Path.Combine(GetWorkingFolder(), @"testdata\web.config");
-            var requiredFile = Path.Combine(GetWorkingFolder(), @"testdata\ParametersUppercaseWithDescription.xml");
+            var sourceFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\web.config");
+            var requiredFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersUppercaseWithDescription.xml");
             var actualFile = "results.xml";
-
+            
             // act
             BlackMarble.ParametersXmlAddin.XmlGenerator.GenerateParametersXmlFile(
                 sourceFile, 
@@ -96,8 +87,8 @@ namespace ParametersXmlAddin_UnitTests
         public void Can_generate_a_new_parameters_file_in_mixedcase_with_description()
         {
             // Arrange 
-            var sourceFile = Path.Combine(GetWorkingFolder(), @"testdata\web.config");
-            var requiredFile = Path.Combine(GetWorkingFolder(), @"testdata\ParametersmixedcaseWithDescription.xml");
+            var sourceFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\web.config");
+            var requiredFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersmixedcaseWithDescription.xml");
             var actualFile = "results.xml";
 
             // act
@@ -118,8 +109,8 @@ namespace ParametersXmlAddin_UnitTests
         public void Can_generate_a_new_parameters_file_in_uppercase_with_no_description()
         {
             // Arrange 
-            var sourceFile = Path.Combine(GetWorkingFolder(), @"testdata\web.config");
-            var requiredFile = Path.Combine(GetWorkingFolder(), @"testdata\ParametersUppercaseWithNoDescription.xml");
+            var sourceFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\web.config");
+            var requiredFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersUppercaseWithNoDescription.xml");
             var actualFile = "results.xml";
 
             // act
@@ -140,8 +131,8 @@ namespace ParametersXmlAddin_UnitTests
         public void Can_generate_a_new_parameters_file_in_mixedcase_with_no_description()
         {
             // Arrange 
-            var sourceFile = Path.Combine(GetWorkingFolder(), @"testdata\web.config");
-            var requiredFile = Path.Combine(GetWorkingFolder(), @"testdata\ParametersmixedcaseWithNoDescription.xml");
+            var sourceFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\web.config");
+            var requiredFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersmixedcaseWithNoDescription.xml");
             var actualFile = "results.xml";
 
             // act
@@ -162,8 +153,8 @@ namespace ParametersXmlAddin_UnitTests
         public void Can_generate_a_new_parameters_file_in_mixedcase_with_description_swap_delimiter()
         {
             // Arrange 
-            var sourceFile = Path.Combine(GetWorkingFolder(), @"testdata\web.config");
-            var requiredFile = Path.Combine(GetWorkingFolder(), @"testdata\ParametersMixedcaseWithDescriptionDelimiterSwapped.xml");
+            var sourceFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\web.config");
+            var requiredFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersMixedcaseWithDescriptionDelimiterSwapped.xml");
             var actualFile = "results.xml";
 
             // act
@@ -185,10 +176,10 @@ namespace ParametersXmlAddin_UnitTests
         public void Can_update_and_existing_parameters_file_with_uppercase_and_description()
         {
             // Arrange 
-            var sourceFile = Path.Combine(GetWorkingFolder(), @"testdata\web.config");
-            var requiredFile = Path.Combine(GetWorkingFolder(), @"testdata\ParametersUppercaseWithDescription.xml");
-            var existingFile = Path.Combine(GetWorkingFolder(), @"testdata\TestFile.XML");
-            File.Copy(Path.Combine(GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile,true);
+            var sourceFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\web.config");
+            var requiredFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersUppercaseWithDescription.xml");
+            var existingFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\TestFile.XML");
+            File.Copy(Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile,true);
 
             // act
             BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(
@@ -208,10 +199,10 @@ namespace ParametersXmlAddin_UnitTests
         public void Can_update_and_existing_parameters_file_with_uppercase_and_description_swap_delimiter()
         {
             // Arrange 
-            var sourceFile = Path.Combine(GetWorkingFolder(), @"testdata\web.config");
-            var requiredFile = Path.Combine(GetWorkingFolder(), @"testdata\ParametersUppercaseWithDescriptionDelimiterSwapper - Update.xml");
-            var existingFile = Path.Combine(GetWorkingFolder(), @"testdata\TestFile.XML");
-            File.Copy(Path.Combine(GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile, true);
+            var sourceFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\web.config");
+            var requiredFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersUppercaseWithDescriptionDelimiterSwapper - Update.xml");
+            var existingFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\TestFile.XML");
+            File.Copy(Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile, true);
 
             // act
             BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(
@@ -231,10 +222,10 @@ namespace ParametersXmlAddin_UnitTests
         public void Can_update_and_existing_parameters_file_with_original_transformmixedcase_and_description()
         {
             // Arrange 
-            var sourceFile = Path.Combine(GetWorkingFolder(), @"testdata\web.config");
-            var requiredFile = Path.Combine(GetWorkingFolder(), @"testdata\ParametersMixedcaseWithDescription - Update.xml");
-            var existingFile = Path.Combine(GetWorkingFolder(), @"testdata\TestFile.XML");
-            File.Copy(Path.Combine(GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile, true);
+            var sourceFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\web.config");
+            var requiredFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersMixedcaseWithDescription - Update.xml");
+            var existingFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\TestFile.XML");
+            File.Copy(Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile, true);
 
             // act
             BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(
@@ -255,10 +246,10 @@ namespace ParametersXmlAddin_UnitTests
         public void Can_update_and_existing_parameters_file_with_uppercase_and_no_description()
         {
             // Arrange 
-            var sourceFile = Path.Combine(GetWorkingFolder(), @"testdata\web.config");
-            var requiredFile = Path.Combine(GetWorkingFolder(), @"testdata\ParametersUppercaseWithNoDescription - update.xml");
-            var existingFile = Path.Combine(GetWorkingFolder(), @"testdata\TestFile.XML");
-            File.Copy(Path.Combine(GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile, true);
+            var sourceFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\web.config");
+            var requiredFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersUppercaseWithNoDescription - update.xml");
+            var existingFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\TestFile.XML");
+            File.Copy(Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile, true);
 
             // act
             BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(
@@ -278,10 +269,10 @@ namespace ParametersXmlAddin_UnitTests
         public void Can_update_and_existing_parameters_file_with_original_transformmixedcase_and_no_description()
         {
             // Arrange 
-            var sourceFile = Path.Combine(GetWorkingFolder(), @"testdata\web.config");
-            var requiredFile = Path.Combine(GetWorkingFolder(), @"testdata\ParametersMixedcaseWithNoDescription - Update.xml");
-            var existingFile = Path.Combine(GetWorkingFolder(), @"testdata\TestFile.XML");
-            File.Copy(Path.Combine(GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile, true);
+            var sourceFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\web.config");
+            var requiredFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersMixedcaseWithNoDescription - Update.xml");
+            var existingFile = Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\TestFile.XML");
+            File.Copy(Path.Combine(HelperMethods.GetWorkingFolder(), @"testdata\ParametersMissingEntries.XML"), existingFile, true);
 
             // act
             BlackMarble.ParametersXmlAddin.XmlGenerator.UpdateParametersXmlFile(
