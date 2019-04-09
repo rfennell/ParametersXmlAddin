@@ -1,16 +1,16 @@
-﻿using System;
+﻿using EnvDTE;
+using Microsoft;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using System;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Globalization;
-using System.Runtime.InteropServices;
-using System.ComponentModel.Design;
-using System.ComponentModel;
-using Microsoft.Win32;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.OLE.Interop;
-using Microsoft.VisualStudio.Shell;
-using EnvDTE;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Threading;
+using Task = System.Threading.Tasks.Task;
 
 namespace BlackMarble.ParametersXmlAddin
 {
@@ -26,20 +26,17 @@ namespace BlackMarble.ParametersXmlAddin
     /// </summary>
     // This attribute tells the PkgDef creation utility (CreatePkgDef.exe) that this class is
     // a package.
-    [PackageRegistration(UseManagedResourcesOnly = true)]
+    [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     // This attribute is used to register the information needed to show this package
     // in the Help/About dialog of Visual Studio.
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     // This attribute is needed to let the shell know that this package exposes some menus.
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(GuidList.guidParametersXmlAddinPkgString)]
-    // You may wonder what that GUID value is, well in this case it represents the 
-    // UICONTEXT_SolutionExists constant, which means the the package will auto-load when a solution exists 
-    // (so when we create a new one or load one). 
-    [ProvideAutoLoad("{f1536ef8-92ec-443c-9ed7-fdadf150da82}")]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideOptionPage(typeof(OptionPageGrid),
     "Parameters XML Addin", "General", 0, 0, true)]
-    public sealed class ParametersXmlAddinPackage : Package
+    public sealed class ParametersXmlAddinPackage : AsyncPackage
     {
         /// <summary>
         /// Default constructor of the package.
@@ -63,13 +60,17 @@ namespace BlackMarble.ParametersXmlAddin
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
         /// where you can put all the initialization code that rely on services provided by VisualStudio.
         /// </summary>
-        protected override void Initialize()
+        protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "BlackMarble.ParametersXmlAddin: Entering Initialize() of: {0}", this.ToString()));
-            base.Initialize();
+            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "BlackMarble.ParametersXmlAddin: Entering InitializeAsync() of: {0}", this.ToString()));
+
+            await base.InitializeAsync(cancellationToken, progress);
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
-            OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            OleMenuCommandService mcs = await GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
+            Assumes.Present(mcs);
+
             if (null != mcs)
             {
                 // Create the command for the menu item.
