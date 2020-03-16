@@ -1,25 +1,25 @@
 ﻿<parameters>
   
-  <parameter name="APPSETTING1" description="" defaultvalue="__APPSETTING1__" tags="">
-    <parameterentry kind="XmlFile" scope="\\web.config$" match="/configuration/appSettings/add[@key='APPSETTING1']/@value" />
+  <parameter name="APPSETTING1" description="" defaultValue="__APPSETTING1__" tags="">
+    <parameterEntry kind="XmlFile" scope="\\web.config$" match="/configuration/appSettings/add[@key='APPSETTING1']/@value" />
   </parameter>
 
-  <parameter name="AppSetting2" description="" defaultvalue="__AppSetting2__" tags="">
-    <parameterentry kind="XmlFile" scope="\\web.config$" match="/configuration/appSettings/add[@key='AppSetting2']/@value" />
+  <parameter name="AppSetting2" description="" defaultValue="__AppSetting2__" tags="">
+    <parameterEntry kind="XmlFile" scope="\\web.config$" match="/configuration/appSettings/add[@key='AppSetting2']/@value" />
    </parameter>
 
   <parameter name="Directory1"
             description=""
-            defaultvalue="__Directory1__" tags="">
-    <parameterentry kind="XmlFile"
+            defaultValue="__Directory1__" tags="">
+    <parameterEntry kind="XmlFile"
                     scope="\\web.config$"
                     match="/configuration/applicationSettings/Service.Properties.Settings/setting[@name='Directory1']/value/text()" />
   </parameter>
 
   <parameter name="Directory2"
           description=""
-          defaultvalue="__Directory2__" tags="">
-    <parameterentry kind="XmlFile"
+          defaultValue="__Directory2__" tags="">
+    <parameterEntry kind="XmlFile"
                     scope="\\web.config$"
                     match="/configuration/applicationSettings/Service.Properties.Settings/setting[@name='Directory2']/value/text()" />
   </parameter>
