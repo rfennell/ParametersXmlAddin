@@ -1,25 +1,28 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="633e9230-4287-47ed-8a7a-bbbdc80569f4" Version="1.10" Language="en-US" Publisher="Richard Fennell" />
-        <DisplayName>Parameters.Xml Generator</DisplayName>
+        <Identity Id="ParametersXmlAddin.Dev17.7b930bcd-e8b0-48c6-a9f0-9230bb9785b2" Version="1.20" Language="en-US" Publisher="Richard Fennell" />
+        <DisplayName>ParametersXmlAddin</DisplayName>
         <Description xml:space="preserve">A tool to generate a parameters.xml file use with MSdeploy to inject configuration values from an existing web.config, or from an app.config if using some other similar but bespoke deployment configuration transformation system.
 
 To use right click on an app.config or web.config file in Solution Explorer and the parameters.xml file will be generated using the current config files entries as default values for both configuration/applicationSettings and configuration/AppSettings.
 
 If the parameters.xml already exists in the folder (even if it is not a file in the project) you will prompted before it is overwritten.</Description>
-        <MoreInfo>https://github.com/rfennell/ParametersXmlAddin</MoreInfo>
         <License>License.txt</License>
         <Icon>Package.ico</Icon>
     </Metadata>
-    <Installation InstalledByMsi="false">
-      <InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.IntegratedShell" />
+    <Installation>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+            <ProductArchitecture>amd64</ProductArchitecture>
+        </InstallationTarget>
     </Installation>
+    <Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+    </Dependencies>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,18.0)" DisplayName="Visual Studio core editor" />
+    </Prerequisites>
     <Assets>
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
     </Assets>
-    <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.8.27729.1,17.0)" DisplayName="Visual Studio core editor" />
-        <Prerequisite Id="Microsoft.Net.Component.4.5.2.TargetingPack" Version="[15.6.27406.0,17.0)" DisplayName=".NET Framework 4.5.2 targeting pack" />
-    </Prerequisites>
 </PackageManifest>
