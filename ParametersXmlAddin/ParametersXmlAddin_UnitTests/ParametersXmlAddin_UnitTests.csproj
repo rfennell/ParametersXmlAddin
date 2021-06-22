@@ -112,9 +112,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ParametersXmlAddin\ParametersXmlAddin.csproj">
+    <ProjectReference Include="..\ParametersXmlAddin\ParametersXmlAddin.Dev16.csproj">
       <Project>{57d29309-9d7b-4401-bba0-dd6ccaa3df1c}</Project>
-      <Name>ParametersXmlAddin</Name>
+      <Name>ParametersXmlAddin.Dev16</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

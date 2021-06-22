@@ -1,30 +1,60 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26020.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31410.414
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C672DB0E-3897-480A-AE75-270851EA2833}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParametersXmlAddin", "ParametersXmlAddin\ParametersXmlAddin.csproj", "{57D29309-9D7B-4401-BBA0-DD6CCAA3DF1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParametersXmlAddin.Dev16", "ParametersXmlAddin\ParametersXmlAddin.Dev16.csproj", "{57D29309-9D7B-4401-BBA0-DD6CCAA3DF1C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParametersXmlAddin_UnitTests", "ParametersXmlAddin_UnitTests\ParametersXmlAddin_UnitTests.csproj", "{E2F2C2FE-BA37-4FAA-84AF-2C75FF06C58B}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ParametersXmlAddinShared", "ParametersXmlAddinShared\ParametersXmlAddinShared.shproj", "{EE014DE4-C251-49F6-BC6B-C9E1818D5AF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParametersXmlAddin.Dev17", "ParametersXmlAddin.Dev17\ParametersXmlAddin.Dev17.csproj", "{AFAD839F-FCD4-4DCB-B975-53AE3C0F0F3D}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ParametersXmlAddinShared\ParametersXmlAddinShared.projitems*{57d29309-9d7b-4401-bba0-dd6ccaa3df1c}*SharedItemsImports = 4
+		ParametersXmlAddinShared\ParametersXmlAddinShared.projitems*{afad839f-fcd4-4dcb-b975-53ae3c0f0f3d}*SharedItemsImports = 4
+		ParametersXmlAddinShared\ParametersXmlAddinShared.projitems*{ee014de4-c251-49f6-bc6b-c9e1818d5af9}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{57D29309-9D7B-4401-BBA0-DD6CCAA3DF1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{57D29309-9D7B-4401-BBA0-DD6CCAA3DF1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57D29309-9D7B-4401-BBA0-DD6CCAA3DF1C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{57D29309-9D7B-4401-BBA0-DD6CCAA3DF1C}.Debug|x86.Build.0 = Debug|Any CPU
 		{57D29309-9D7B-4401-BBA0-DD6CCAA3DF1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57D29309-9D7B-4401-BBA0-DD6CCAA3DF1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57D29309-9D7B-4401-BBA0-DD6CCAA3DF1C}.Release|x86.ActiveCfg = Release|Any CPU
+		{57D29309-9D7B-4401-BBA0-DD6CCAA3DF1C}.Release|x86.Build.0 = Release|Any CPU
 		{E2F2C2FE-BA37-4FAA-84AF-2C75FF06C58B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E2F2C2FE-BA37-4FAA-84AF-2C75FF06C58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2F2C2FE-BA37-4FAA-84AF-2C75FF06C58B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E2F2C2FE-BA37-4FAA-84AF-2C75FF06C58B}.Debug|x86.Build.0 = Debug|Any CPU
 		{E2F2C2FE-BA37-4FAA-84AF-2C75FF06C58B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2F2C2FE-BA37-4FAA-84AF-2C75FF06C58B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2F2C2FE-BA37-4FAA-84AF-2C75FF06C58B}.Release|x86.ActiveCfg = Release|Any CPU
+		{E2F2C2FE-BA37-4FAA-84AF-2C75FF06C58B}.Release|x86.Build.0 = Release|Any CPU
+		{AFAD839F-FCD4-4DCB-B975-53AE3C0F0F3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFAD839F-FCD4-4DCB-B975-53AE3C0F0F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFAD839F-FCD4-4DCB-B975-53AE3C0F0F3D}.Debug|x86.ActiveCfg = Debug|x86
+		{AFAD839F-FCD4-4DCB-B975-53AE3C0F0F3D}.Debug|x86.Build.0 = Debug|x86
+		{AFAD839F-FCD4-4DCB-B975-53AE3C0F0F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFAD839F-FCD4-4DCB-B975-53AE3C0F0F3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFAD839F-FCD4-4DCB-B975-53AE3C0F0F3D}.Release|x86.ActiveCfg = Release|x86
+		{AFAD839F-FCD4-4DCB-B975-53AE3C0F0F3D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA1351C0-DC69-4759-87B4-B88324D2A52C}
 	EndGlobalSection
 EndGlobal
